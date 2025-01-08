@@ -142,7 +142,13 @@ const setupWebSocket = (station) => {
   ws = new WebSocket(`${wsProtocol}//localhost:3000`);
 
   ws.onopen = () => {
-    axiosInstance.post('/api/monitor', { url: station.url_resolved });
+    axiosInstance.post('/api/monitor', { url: station.url_resolved })
+      .then(response => {
+        console.log('Monitoring started:', response.data);
+      })
+      .catch(error => {
+        console.error('Failed to initiate monitoring:', error);
+      });
   };
 
   ws.onmessage = (event) => {

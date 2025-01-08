@@ -13,23 +13,25 @@ const app = express();
 
 // Middleware
 app.use(helmet()); // Security headers
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors({ origin: 'https://localhost:5174' })); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Parse JSON requests
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 app.use(morgan('dev')); // Logging for development
-
-// API Routes
-app.use('/api', radioRouter); // Use the radio router for API endpoints
 
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', timestamp: new Date() });
 });
 
+// API Routes
+app.use('/api', radioRouter); // Use the radio router for API endpoints
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
+
+
 
 export default app;

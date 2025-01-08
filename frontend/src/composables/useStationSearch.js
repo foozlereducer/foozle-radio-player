@@ -11,7 +11,8 @@ export default function useStationSearch() {
   const fetchStations = async () => {
     try {
       console.log('Fetching stations for:', searchCountry.value);
-      const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/api/stations', {
+      console.log('env', import.meta.env.VITE_BACKEND_URL)
+      const response = await axios.get('/api/stations', {
         params: {
           country: searchCountry.value,
           limit: 20000,

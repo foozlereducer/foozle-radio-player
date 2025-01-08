@@ -103,21 +103,26 @@ const mergeObjs = (aObj, bObj) =>{
 /**
  * Route to initiate metadata monitoring for a stream URL.
  */
-router.post('/api/monitor', (req, res) => {
-    const { url } = req.body;
-  
-    if (!url) {
-      return res.status(400).send("Stream URL is required");
-    }
-  
-    // Start monitoring metadata for the given stream URL
-    monitorMetadata(url);
-    res.status(200).send("Metadata monitoring initiated");
-  });
+router.post('/monitor', (req, res) => {
+  console.log('POST /monitor hit');
+  console.log('Request body:', req.body);
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).send("Stream URL is required");
+  }
+
+  console.log('Monitor endpoint hit with URL:', url);
+
+  // Start monitoring metadata for the given stream URL
+  monitorMetadata(url);
+  res.status(200).send("Metadata monitoring initiated");
+});
+
 /**
  * Get a list of radio stations, caching the results.
  */
-router.get('/api/stations', async (req, res) => {
+router.get('/stations', async (req, res) => {
     try {
       const country = req.query.country || 'Canada';
       const limit = req.query.limit || 100;
