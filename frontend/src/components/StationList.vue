@@ -24,22 +24,27 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['playStation']); // Declare the 'playStation' event
+const emit = defineEmits(['playStation']);
 
 const selectStation = (station) => {
-  emit('playStation', station); // Emit the 'playStation' event
+  emit('playStation', station);
 };
 </script>
 
 <style scoped>
+.station-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .station-card {
-  display: block;
   background: #333;
-  padding: 15px;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
   text-align: center;
+  transition: transform 0.3s, background 0.3s;
 }
 
 .station-card:hover {
@@ -47,21 +52,9 @@ const selectStation = (station) => {
   transform: scale(1.05);
 }
 
-.title {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-.station-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
 .no-stations {
-  color: #ccc;
   text-align: center;
-  font-size: 1.2em;
-  margin: 20px 0;
+  color: #ccc;
+  font-size: 1em;
 }
 </style>

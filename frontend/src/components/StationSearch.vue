@@ -33,110 +33,115 @@ const { searchCountry, searchQuery, fetchStations, filteredStations } =
   useStationSearch();
 const emit = defineEmits(['stationsFetched']);
 
-// Emit filtered stations on input
 const emitStations = () => {
   emit('stationsFetched', filteredStations.value);
 };
 
 const searchStations = async () => {
   await fetchStations();
-  emitStations(); // Ensure filtered results are emitted after fetch
+  emitStations();
 };
 </script>
 
-
 <style scoped>
-.search-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
 .search-fields {
-  display: grid;
-  grid-template-columns: auto auto auto; /* Ensure 3 columns */
-  grid-template-areas: 
-    "country search station"; /* Define grid areas for alignment */
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  align-items: center;
 }
 
-.search-group:nth-child(1) {
-  grid-area: country; /* Assign "Country" field to the grid area */
+.search-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.search-group:nth-child(2) {
-  grid-area: station; /* Assign "Station" field to the grid area */
+.search-input {
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
 }
 
 .search-btn {
-  grid-area: search; /* Assign "Search" button to the grid area */
+  padding: 10px;
   background-color: #ff4444;
   color: #fff;
   border: none;
-  padding: 8px 12px;
-  cursor: pointer;
   border-radius: 5px;
   font-size: 14px;
-  justify-self: start; /* Align the button next to "Country" */
+  cursor: pointer;
+  text-align: center;
 }
 
 .search-btn:hover {
   background-color: #e63b3b;
 }
 
-.search-input {
-  background-color: #333; /* Match the dark theme */
-  color: #fff; /* White text for contrast */
-  border: 1px solid #555; /* Subtle border for definition */
-  padding: 8px;
-  border-radius: 5px;
-  outline: none;
-}
 
-.search-input:-webkit-autofill {
-  background-color: #333 !important; /* Match the dark theme */
-  -webkit-text-fill-color: #fff !important; /* Ensure autofill text is white */
-  border: 1px solid #555 !important; /* Subtle border */
-  -webkit-box-shadow: 0 0 0px 1000px #333 inset !important; /* Remove yellow highlight */
-  box-shadow: 0 0 0px 1000px #333 inset !important; /* Remove yellow highlight */
-}
-
-.search-input:-webkit-autofill:focus {
-  border-color: #ff4444 !important; /* Highlight border on focus */
-  box-shadow: 0 0 5px #ff4444 !important;
-  -webkit-text-fill-color: #fff !important; /* Ensure autofill text stays white */
-}
-
-.search-input:-moz-autofill {
-  background-color: #333 !important; /* Match the dark theme */
-  color: #fff !important; /* Ensure white text */
-  border: 1px solid #555 !important; /* Subtle border */
-}
-
-.search-input:-moz-autofill:focus {
-  border-color: #ff4444 !important; /* Highlight border on focus */
-  box-shadow: 0 0 5px #ff4444 !important;
-  color: #fff !important; /* Ensure autofill text stays white */
-}
-
-button {
-  background-color: #ff4444; /* Match the button color */
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #d83a3a; /* Slightly darker red for hover effect */
-}
-
-@media (max-width: 768px) {
-  .search-fields {
-    grid-template-columns: 1fr;
+@media all and (min-width: 1024px) and (max-width: 1280px) { 
+  .search-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) { 
+  .search-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) { }
+
+@media (max-width: 480px) {
+  .search-container {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+/* Portrait */
+@media screen and (orientation:portrait) { /* Portrait styles here */ }
+/* Landscape */
+@media screen and (orientation:landscape) { /* Landscape styles here */ }
+
+
+/* CSS for iPhone, iPad, and Retina Displays */
+
+/* Non-Retina */
+@media screen and (-webkit-max-device-pixel-ratio: 1) {
+}
+
+/* Retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+}
+
+/* iPhone Portrait */
+@media screen and (max-device-width: 480px) and (orientation:portrait) {
+} 
+
+/* iPhone Landscape */
+@media screen and (max-device-width: 480px) and (orientation:landscape) {
+}
+
+/* iPad Portrait */
+@media screen and (min-device-width: 481px) and (orientation:portrait) {
+}
+
+/* iPad Landscape */
+@media screen and (min-device-width: 481px) and (orientation:landscape) {
 }
 </style>

@@ -1,7 +1,5 @@
 /**
  * Basic CSS Media Query Template
- * Author: Michael Vieth - modified for the app by Steve Browning
- * Source: https://gist.github.com/mavieth/e0c8fdcb72a30d85f57a
  * ------------------------------------------
  *  Responsive Grid Media Queries - 1280, 1024, 768, 480
  *   1280-1024   - desktop (default grid)
@@ -10,462 +8,55 @@
  *   480-less    - phone landscape & smaller
  * --------------------------------------------
  */
+
  body {
-   background-image: url('../images/desktop_tablet_bk2.png');
-   background-repeat: repeat;
-   font-size: 1.9rem; 
+   background-image: url('../images/foggy-bridge.png');
    background-color: rgba(0,0,0,0.2);
-}
-.wrapper {
-   display: grid;
-   grid-template-columns: repeat(9, [col-start] 1fr);
-   grid-auto-rows: minmax(100px, auto);
-   grid-template-areas:
-     "hd hd hd hd   hd   hd   hd   hd   hd"
-     "nav nav nav nav  nav   nav   nav   nav   nav"
-     "sd sd main main main main main main main"
-     "sd sd main main main main main main main"
-     "ft ft ft ft  ft   ft   ft   ft   ft";
-   background: rgba(0, 0, 0, 0.4)
-}
-/** Header **/
-header.main-header {
-   display: grid;
-   position: fixed;
-   grid-area: hd;
-   grid-column: 1 / span 9; /* Span from the first column to the last column */
-   justify-content: center; /* Align the header horizontally */
-   align-items: center; /* Align the header vertically */
-   gap: 0; /* Adjust the gap between logo and sub-header */
-   width: 100%; /* Ensure the header spans the entire width of the parent container */
-   padding-bottom: 10px;
-   box-shadow: 0 0 4px 0 rgb(255 210 127 / 8%), 0 2px 4px 0 rgb(205 191 173);
-   background-color: rgba(0,0,0, 0.6);
-   color: white;
-   transition: .5s ease all;
-}
-
-.sub-header {
-   grid-column: col-start 3 / col-start 8; /* Start from col-start 3 and end at col-start 9 */
-   grid-row: 1 / 2;
-   display: flex; /* Use flexbox */
-   flex-direction: column; /* Arrange items vertically */
-   justify-content: center; /* Center items horizontally */
-   align-items: center; /* Center items vertically */
-   gap: 3px;
-}
-
-.sub-header h1,
-.sub-header p {
-    margin: 0; /* Set margin to 0 */
-    padding: 0; /* Set padding to 0 */
-}
-
-header .logo {
-   grid-column: col-start -3 / span 2;
-   margin-right: 10px;
-   justify-items: center;
-   width: 100px;
-   gap: 5px;
-   object-fit: cover;
-}
-
-header h1 {
-   font-size: 2.4rem;
-}
-
-/**
- * Navigation
- */
- nav {
-   grid-area: nav;
-   position: fixed;
-   top: 70px; /* Adjust as needed to position below header */
-   left: 0;
-   width: 100%;
-   color: white;
-   padding: 10px;
-   display: flex;
-   justify-content: center; /* Center horizontally */
-}
-
-.link {
-   transition: .5s ease all;
-   padding-bottom: 4px;
-   border-bottom: 1px solid transparent;
-   font-weight: 500;
-   color: white;
-}
-
-.link:hover {
-   color: #17BAD0;
-   border-color: #17BAD0;
-}
-nav ul {
-   list-style: none;
-   padding: 0;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: row; /* Display items horizontally */
-   position: fixed;
-   background-color: rgba(0,0,0,0.3);
-}
-
-nav ul li {
-   margin: 0 10px 0 10px; /* Adjust margin between menu items */
-   padding: 16px;
-   text-transform: uppercase;
-   list-style: none; 
-}
-
-nav ul li a {
-   text-decoration: none;
-   color: #ffffff; /* Adjust the color as needed */
-}
-
-/**
-   Sidebar
- */
- .sidebar {
-   grid-area: sd;
-   padding: 10px;
-   color: white;
  }
-
- /**
-  Content
- */
- .content {
-   display: grid;
-   grid-column: 3 / 9;
-   grid-row: 3;
-   padding: 20px;
-   color: white;
-   background-color: rgba(0,0,0,0.5);
-   min-height: 100vh;
- }
- .router-view {
-   display: flex;
-   flex-direction: column;
-   align-items: stretch; /* Ensure children stretch to fill the container */
-   width: 100%;
-   height: 100%;
- }
-
- /**
-  Footer
- */
- .footer {
-   grid-area: ft;
-   padding: 10px;
-   color: white;
- }
-
- /** 
-   Charts 
- */
- .bar {
-   fill: rgb(44, 210, 143) !important;  /* Default color for the bars */
-   stroke: slategray !important
- }
-
- .line {
-   fill: none;       /* Ensure the fill is none for the line */
-   stroke: steelblue;/* Default color for the line */
-   stroke-width: 2px;
- }
-
- .x-axis path,
- .y-axis path {
-   display: none;
+ .wrapper {
+  display: block;
+  max-width: 800px;
  }
  
- .x-axis line,
- .y-axis line {
-   stroke: #ddd;
+ @media all and (min-width: 1024px) and (max-width: 1280px) { }
+
+ @media all and (min-width: 768px) and (max-width: 1024px) { }
+ 
+ @media all and (min-width: 480px) and (max-width: 768px) { }
+ 
+ @media (max-width: 480px) {}
+ 
+ /* Portrait */
+ @media screen and (orientation:portrait) { /* Portrait styles here */ }
+ /* Landscape */
+ @media screen and (orientation:landscape) { /* Landscape styles here */ }
+ 
+ 
+ /* CSS for iPhone, iPad, and Retina Displays */
+ 
+ /* Non-Retina */
+ @media screen and (-webkit-max-device-pixel-ratio: 1) {
  }
-
- .chart-container {
-   flex: 1; /* Allow the container to grow and fill available space */
-   display: flex;
-   flex-direction: column; /* Default to column layout */
-   gap: 20px; /* Optional: add space between the charts */
-   width: 90%; /* Adjust width for better fit */
-   margin: 0 auto; /* Center align the charts */
-   padding: 0 10px; /* Add padding to prevent edge overflow */
+ 
+ /* Retina */
+ @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+ only screen and (-o-min-device-pixel-ratio: 3/2),
+ only screen and (min--moz-device-pixel-ratio: 1.5),
+ only screen and (min-device-pixel-ratio: 1.5) {
  }
-
- .chart-container > * {
-   flex: 1; /* Ensure child elements can grow */
-   width: 100%;
-   height: auto; /* Ensure the charts can take up the necessary height */
+ 
+ /* iPhone Portrait */
+ @media screen and (max-device-width: 480px) and (orientation:portrait) {
+ } 
+ 
+ /* iPhone Landscape */
+ @media screen and (max-device-width: 480px) and (orientation:landscape) {
  }
-
-/**
- * Auth
- */
-.auth {
-   position: fixed;
-   top: 10px; /* Adjust the top position as needed */
-   right: 100px; /* Adjust the right position as needed */
-}
-
-.auth a {
-   text-decoration: none;
-   font-size: medium;
-   color: white;
-   border-bottom: 1px solid transparent;
-}
-
-.auth a:hover {
-   color: #17BAD0;
-   border-color: #17BAD0;
-}
-
-.sidebar {
-   grid-area: sd;
-}
-.footer {
-   grid-area: ft;
-}
-
-.icon {
-   display: flex;
-   align-items: center;
-   position: absolute;
-   top: -38px; /* Adjust the top position */
-   right: 50px; /* Adjust the right position */
-   height: 100%;
-}
-
-i {
-   cursor: pointer;
-   font-size: 24px;
-   transition: .8s ease all;
-}
-
-.icon-active {
-   transform: rotate(180deg)
-}
-
-.dropdown-nav {
-   display: flex;
-   flex-direction: column;
-   position: fixed;
-   width: 100%;
-   max-width: 250px;
-   height: 100%;
-   background-color: white;
-   top: 0;
-   left: 0;
-   background-color: rgba(0,0,0,0.3);
-}
-
-.dropdown-nav li {
-   margin-left: 0;
-}
-
-.dropdown-nav li a.link {
-   color: #fff;
-}
-
-.dropdown-nav li a:hover, .dropdown-nav li a:active {
-   color: #17BAD0;
-   border-color: #17BAD0;
-}
-
-.mobile-nav-enter-active,
-.mobile-nav-leave-active {
-   transition: 1s ease all;
-}
-
-.mobile-nav-enter-from,
-.mobile-nav-leave-to {
-   transform: translateX(-250px);
-}
-
-.mobile-nav-enter-to {
-   transform: translateX(0);
-}
-
-.fadeLoginLogoutWeb {
-   transition: 3s ease all;
-   display: none;
-}
-/* End Nav CSS */
-
-html, body, header, section, div, h1, h2, h3, h4, p {
-   display: initial;
-}
-
-/** 
-   Desktop and Larger Screens (1201px and above)
-*/
-@media all and (min-width: 1201px) {
-   .chart-container {
-      flex-direction: row; /* Arrange charts in a row for large screens */
-   }
-}
-
-/** 
-   Desktop (1025px to 1200px)
-*/
-@media all and (min-width: 1025px) and (max-width: 1200px) {
-   * {
-      margin: 0;
-      padding: 0;
-   }
-   .chart-container {
-      flex: 1; /* Allow the container to grow and fill available space */
-      display: flex;
-      flex-direction: row;
-      gap: 20px; /* Optional: add space between the charts */
-   }
-   .chart-container > * {
-      flex: 1; /* Ensure child elements can grow */
-      width: 100%;
-      height: auto; /* Ensure the charts can take up the necessary height */
-   }
-}
-
-/** 
-   Large Format Tablets and Small Computer Sizes (768px to 1024px)
-*/
-@media all and (min-width: 768px) and (max-width: 1024px) {
-   body {
-     background-color: rgba(0, 0, 0, 0.2);
-   }
-   header {
-     font-size: 1.6rem; 
-   }
-   header h1 {
-     font-size: 1.8rem;
-   }
-   header .logo {
-     width: 150px;
-   }
-   header .bars {
-     width: 250px;
-   }
-   .content {
-     padding: 20px;
-     background-color: rgba(0,0,0,0.5);
-     min-height: 100vh;
-   }
-   .router-view {
-     padding: 0;
-     margin: 0 auto;
-     width: 100%;
-   }
-   nav ul {
-     justify-content: space-around; /* Adjust menu items spacing */
-     padding: 0 20px; /* Add padding for better spacing */
-   }
-   nav ul li {
-     margin: 0 5px; /* Reduce margin for better fit */
-   }
-   .auth {
-     top: 5px; /* Adjust top position for better alignment */
-     right: 20px; /* Adjust right position */
-   }
-   * {
-     margin: 0;
-     padding: 0;
-   }
-}
-
-/** 
-   Small Tablets and Large Phones (481px to 768px)
-*/
-@media all and (min-width: 481px) and (max-width: 768px) {
-   body {
-      background-color: rgba(0,0,0,0.2);
-   }
-   header {
-      font-size: 1.6rem; 
-   }
-   header h1 {
-      font-size: 1.8rem;
-   }
-   header .logo {
-      width: 200px;
-   }
-   header .bars {
-      width: 300px;
-   }
-   .chart-container {
-      width: 95%;
-   }
-   * {
-      margin: 0;
-      padding: 0;
-   }
-}
-
-/**
-   Mobile (max-width: 480px)
-*/
-@media all and (max-width: 480px) {
-   body {
-      background-image: url('../images/mobile_bk2.png');
-    }
-  
-    .main-mobile-header {
-      display: block;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.2);
-      box-shadow: 0 0 4px 0 rgb(255 210 127 / 8%), 0 2px 4px 0 rgb(205 191 173);
-      transition: .5s ease all;
-    }
-
-    nav {
-      background-color: rgba(0, 0, 0, 0.0);
-    }
-
-   header .logo {
-      display: block;
-      width: 100%;
-   }
-
-   header .logo img {
-      max-width: 100%; /* Ensure logo doesn't exceed container width */
-      width: 50px;
-      margin: 0 auto;
-   }
-
-   header .sub-header h1 {
-      font-size: 1.4rem;
-   }
-
-   .sub-header p {
-      font-size: 1.4rem;
-   }
-
-   .auth {
-      position: inherit;
-      text-align: right; /* Align authentication section to the right */
-   }
-  
-   .auth a {
-      text-decoration: none;
-      font-size: medium;
-   }
-
-   .mobile-auth a {
-      color: rgb(255, 255, 255);
-      font-weight: 500;
-   }
-
-   .chart-container {
-      width: 100%;
-      padding: 0 5px;
-   }
-
-   * {
-      margin: 0;
-      padding: 0;
-   }
-}
+ 
+ /* iPad Portrait */
+ @media screen and (min-device-width: 481px) and (orientation:portrait) {
+ }
+ 
+ /* iPad Landscape */
+ @media screen and (min-device-width: 481px) and (orientation:landscape) {
+ }

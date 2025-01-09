@@ -139,7 +139,7 @@ const setupWebSocket = (station) => {
   if (ws) ws.close();
 
   const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  ws = new WebSocket(`${wsProtocol}//localhost:3000`);
+  ws = new WebSocket(`${wsProtocol}//localhost:3001`);
 
   ws.onopen = () => {
     axiosInstance.post('/api/monitor', { url: station.url_resolved })
@@ -199,12 +199,7 @@ onBeforeUnmount(() => {
   gap: 20px;
 }
 
-.album-art img {
-  width: 360px;
-  height: 360px;
-  border-radius: 8px;
-  object-fit: cover;
-}
+
 
 .now-listening {
   display: flex;
@@ -295,5 +290,75 @@ onBeforeUnmount(() => {
 .elapsed-time {
   font-size: 0.8em;
   color: #dfdfdf
+}
+
+
+@media all and (min-width: 1024px) and (max-width: 1280px) { 
+  .album-art img {
+  width: 360px;
+  height: 360px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) { 
+  .album-art img {
+  width: 360px;
+  height: 360px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) { }
+
+@media (max-width: 480px) {
+  .album-art img {
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .track-info {
+    font-size: 1.2em;
+  }
+}
+
+
+/* Portrait */
+@media screen and (orientation:portrait) { /* Portrait styles here */ }
+/* Landscape */
+@media screen and (orientation:landscape) { /* Landscape styles here */ }
+
+
+/* CSS for iPhone, iPad, and Retina Displays */
+
+/* Non-Retina */
+@media screen and (-webkit-max-device-pixel-ratio: 1) {
+}
+
+/* Retina */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+}
+
+/* iPhone Portrait */
+@media screen and (max-device-width: 480px) and (orientation:portrait) {
+} 
+
+/* iPhone Landscape */
+@media screen and (max-device-width: 480px) and (orientation:landscape) {
+}
+
+/* iPad Portrait */
+@media screen and (min-device-width: 481px) and (orientation:portrait) {
+}
+
+/* iPad Landscape */
+@media screen and (min-device-width: 481px) and (orientation:landscape) {
 }
 </style>
