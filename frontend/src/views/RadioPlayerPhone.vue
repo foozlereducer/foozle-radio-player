@@ -1,3 +1,23 @@
+
+To address the issues you mentioned for the mobile view:
+
+Scrollbar in the selected station card:
+
+Add overflow: hidden; to the station card CSS to prevent unnecessary scrollbars.
+Ensure consistent padding and sizing to avoid clipping or overflow.
+Scrollbar in the station list:
+
+Increase the height limit of the station list for easier scrolling on mobile devices.
+Add smooth scrolling for better usability.
+Volume change bar too small for mobile:
+
+Increase the size of the volume slider for mobile users.
+Adjust the thumb size and track height to accommodate finger interaction.
+Here’s the updated RadioPlayerPhone.vue and scoped styles for the other components:
+
+Updated RadioPlayerPhone.vue
+vue
+Copy code
 <template>
   <div class="radio-container-phone">
     <!-- Top Section: Audio Controls -->
@@ -48,7 +68,6 @@ const playStation = (station) => {
   background: rgba(0, 0, 0, 0.8);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
 }
 
 .player-container {
@@ -72,10 +91,21 @@ const playStation = (station) => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto;
-  max-height: 40vh;
 }
 
+.station-card {
+  padding: 12px;
+  border-radius: 8px;
+  background: #333;
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+  overflow: hidden;
+}
+
+.station-card:hover {
+  background: #444;
+  transform: scale(1.05);
+}
 
 @media all and (min-width: 1024px) and (max-width: 1280px) { }
 

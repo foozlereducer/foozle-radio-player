@@ -199,8 +199,6 @@ onBeforeUnmount(() => {
   gap: 20px;
 }
 
-
-
 .now-listening {
   display: flex;
   flex-direction: column;
@@ -234,8 +232,9 @@ onBeforeUnmount(() => {
 .middle-row {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Align items with even spacing */
   width: 100%;
-  gap: 10px;
+  gap: 8px; /* Compact spacing between controls */
 }
 
 .play-button {
@@ -244,31 +243,47 @@ onBeforeUnmount(() => {
   background: none;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .progress-bar-container {
-  flex: 1;
-  height: 4px;
-  background: #333;
-  border-radius: 2px;
+  flex: 1; /* Allocate the maximum space */
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  margin: 0 10px; /* Add margin for spacing */
 }
 
 .progress-bar {
-  display:block;
+  width: 100%;
+  height: 6px;
+  background: #e60808;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  display: block;
   height: 100%;
+  width: 0;
   background: #ff4444;
   transition: width 0.2s ease-in-out;
+  position: absolute;
 }
 
 .volume-control {
   display: flex;
   align-items: center;
   gap: 5px;
+  flex-shrink: 0; /* Prevent shrinking */
+  width: 90px; /* Adjusted width for balance */
 }
 
 .volume-control input {
   -webkit-appearance: none;
-  width: 80px;
+  width: 100%;
   height: 6px;
   background: #fff;
   border-radius: 5px;
@@ -283,13 +298,22 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 
+.volume-control input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #ff4444;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .track-metadata p {
   display: block;
 }
 
 .elapsed-time {
   font-size: 0.8em;
-  color: #dfdfdf
+  color: #dfdfdf;
+  margin-top: 5px;
 }
 
 
@@ -323,6 +347,23 @@ onBeforeUnmount(() => {
 
   .track-info {
     font-size: 1.2em;
+  }
+
+  .middle-row {
+    /* flex-wrap: nowrap; Ensure items stay on one line */
+    gap: 5px; /* Further reduce gap for smaller screens */
+  }
+
+  .volume-control {
+    width: 80px; /* Reduce the width further for smaller screens */
+  }
+
+  .elapsed-time {
+    font-size: 0.7em; /* Slightly smaller for mobile screens */
+  }
+  .progress-bar {
+    margin-top:20px;
+    height: 6px;
   }
 }
 
