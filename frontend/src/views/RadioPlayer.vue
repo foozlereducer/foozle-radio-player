@@ -43,8 +43,8 @@ const playStation = (station) => (selectedStreamUrl.value = station.url_resolved
   background: rgba(0, 0, 0, 0.8);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  max-width: 900px; /* Restrict the overall width */
-  align-items: center; /* Center all child elements */
+  max-width: 800px; /* Balanced width */
+  align-items: center;
 }
 
 .player-container {
@@ -59,10 +59,17 @@ const playStation = (station) => (selectedStreamUrl.value = station.url_resolved
 
 .search-section {
   display: flex;
-  flex-direction: column; /* Stack fields and buttons */
-  gap: 15px;
+  flex-wrap: wrap; /* Wrap elements for smaller screens */
+  justify-content: space-between; /* Space out items evenly */
+  gap: 10px;
   width: 100%;
-  align-items: center;
+}
+
+.search-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex: 1; /* Equal spacing */
 }
 
 .search-btn {
@@ -71,12 +78,14 @@ const playStation = (station) => (selectedStreamUrl.value = station.url_resolved
 }
 
 .station-list-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Multi-column layout */
+  gap: 20px;
   width: 100%;
   overflow-y: auto;
-  max-height: 40vh;
+  max-height: 40vh; /* Limit height */
+  padding: 10px; /* Prevent overflow scrollbar */
+  box-sizing: border-box;
 }
 
 .station-card {
@@ -85,10 +94,8 @@ const playStation = (station) => (selectedStreamUrl.value = station.url_resolved
   background: #333;
   text-align: center;
   transition: transform 0.3s, background 0.3s;
-  font-size: 1em; /* Balance font size */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Add slight shadow for depth */
-  width: calc(100% - 20px); /* Ensure spacing consistency */
-  max-width: 800px; /* Prevent excessive stretching */
+  font-size: 1em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .station-card:hover {
