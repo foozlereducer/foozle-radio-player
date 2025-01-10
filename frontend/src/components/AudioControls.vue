@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between; /* Align items with even spacing */
   width: 100%;
-  gap: 8px; /* Compact spacing between controls */
+  gap: 15px; /* Compact spacing between controls */
 }
 
 .play-button {
@@ -247,11 +247,10 @@ onBeforeUnmount(() => {
 }
 
 .progress-bar-container {
-  flex: 1; /* Allocate the maximum space */
+  flex: 2; /* Allocate more space to the progress bar */
   display: flex;
   flex-direction: column;
-  align-items: left;
-  margin: 0 10px; /* Add margin for spacing */
+  margin: 0 10px;
 }
 
 .progress-bar {
@@ -278,7 +277,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 5px;
   flex-shrink: 0; /* Prevent shrinking */
-  width: 90px; /* Adjusted width for balance */
+  width: 150px; /* Adjusted width for balance */
 }
 
 .volume-control input {

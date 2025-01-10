@@ -10,12 +10,8 @@
  */
 
  body {
-   background-image: url('../images/foggy-bridge.png');
+   background-image: url('../images/foggy-bridge.jpg');
    background-color: rgba(0,0,0,0.2);
- }
- .wrapper {
-  display: block;
-  max-width: 800px;
  }
  
  @media all and (min-width: 1024px) and (max-width: 1280px) { }
