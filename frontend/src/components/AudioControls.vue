@@ -187,7 +187,7 @@ onBeforeUnmount(() => {
 .audio-controls {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
   color: #fff;
   width: 100%;
@@ -232,9 +232,10 @@ onBeforeUnmount(() => {
 .middle-row {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Align items with even spacing */
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
-  gap: 15px; /* Compact spacing between controls */
+  padding: 0 10px;
 }
 
 .play-button {
@@ -247,18 +248,19 @@ onBeforeUnmount(() => {
 }
 
 .progress-bar-container {
-  flex: 2; /* Allocate more space to the progress bar */
+  flex: 2;
   display: flex;
   flex-direction: column;
-  margin: 0 10px;
+  align-items: center;
+  margin-top: 25px;
 }
 
 .progress-bar {
   width: 100%;
   height: 6px;
+  margin: 5px 0; /* Compact spacing */
   background: #e60808;
   border-radius: 3px;
-  overflow: hidden;
   position: relative;
 }
 
@@ -273,15 +275,15 @@ onBeforeUnmount(() => {
 }
 
 .volume-control {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 5px;
-  flex-shrink: 0; /* Prevent shrinking */
-  width: 150px; /* Adjusted width for balance */
+  gap: 10px;
 }
 
 .volume-control input {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 6px;
   background: #fff;
@@ -312,26 +314,27 @@ onBeforeUnmount(() => {
 .elapsed-time {
   font-size: 0.8em;
   color: #dfdfdf;
-  margin-top: 5px;
+  margin: 0; /* Ensure no extra spacing */
 }
 
-
-@media all and (min-width: 1024px) and (max-width: 1280px) { 
-  .album-art img {
+.album-art img {
   width: 360px;
   height: 360px;
   border-radius: 8px;
   object-fit: cover;
 }
+
+@media all and (min-width: 1024px) and (max-width: 1280px) { 
+ 
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) { 
   .album-art img {
-  width: 360px;
-  height: 360px;
-  border-radius: 8px;
-  object-fit: cover;
-}
+    width: 360px;
+    height: 360px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) { }
@@ -347,14 +350,18 @@ onBeforeUnmount(() => {
   .track-info {
     font-size: 1.2em;
   }
-
   .middle-row {
-    /* flex-wrap: nowrap; Ensure items stay on one line */
-    gap: 5px; /* Further reduce gap for smaller screens */
+    width: 100%;
+    gap: 5px; /* Compact spacing between controls */
+    margin-top: 0;
   }
 
   .volume-control {
-    width: 80px; /* Reduce the width further for smaller screens */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    width: 80px; /* Adjusted for usability */
   }
 
   .elapsed-time {
@@ -363,6 +370,13 @@ onBeforeUnmount(() => {
   .progress-bar {
     margin-top:20px;
     height: 6px;
+  }
+
+  .progress-bar-container {
+    flex: 2;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
   }
 }
 
