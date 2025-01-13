@@ -33,10 +33,13 @@ const selectStation = (station) => {
 
 <style scoped>
 .station-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjust card size dynamically */
+  gap: 20px;
+  width: 100%; /* Ensure the grid spans the container */
+  max-width: 100%; /* Avoid extra padding issues */
+  overflow: visible; /* Avoid local scrollbars */
+  box-sizing: border-box; /* Consistent sizing */
 }
 
 .station-card {
@@ -44,8 +47,10 @@ const selectStation = (station) => {
   border-radius: 10px;
   background: #333;
   text-align: center;
+  font-size: 1em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s, background 0.3s;
-  overflow: hidden;
+  overflow: hidden; /* Prevent content overflow */
 }
 
 .station-card:hover {
@@ -66,7 +71,28 @@ const selectStation = (station) => {
 
 @media all and (min-width: 480px) and (max-width: 768px) { }
 
-@media (max-width: 480px) {}
+@media (max-width: 480px) {
+  /* .station-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+  } */
+
+  .station-list {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+
+  .station-card {
+    padding: 15px;
+    border-radius: 10px;
+    background: #333;
+    text-align: center;
+    transition: transform 0.3s, background 0.3s;
+    overflow: hidden;
+    font-size: 0.9em; /* Adjust text size for mobile */
+  }
+}
 
 /* Portrait */
 @media screen and (orientation:portrait) { /* Portrait styles here */ }
