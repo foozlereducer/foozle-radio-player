@@ -37,7 +37,7 @@ const playStation = (station) => (selectedStreamUrl.value = station.url_resolved
   gap: 30px;
   margin: 20px auto;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   max-width: 700px; /* Adjust for better balance */

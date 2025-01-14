@@ -54,12 +54,13 @@ const searchStations = async () => {
 }
 
 .search-btn {
-  padding: 8px 15px;
+  padding: 5px 15px;
   font-size: 14px;
   background-color: #ff4444;
   border: none;
   border-radius: 5px;
   color: white;
+  margin-top: 25px;
 }
 </style>
 
