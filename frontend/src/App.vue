@@ -5,7 +5,7 @@
        <RadioPlayerPhone />
     </div>
     <div class="tablet" v-else-if="device === 'tablet'">
-      <!-- Tablet -->
+      <RadioPlayer />
     </div>
     <div class="desktop" v-else-if="device === 'desktop'">
       <!-- Desktop -->

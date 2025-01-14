@@ -8,7 +8,7 @@
       <button class="search-btn" @click="searchStations">Search</button>
       <div class="search-group">
         <label for="station">Station:</label>
-        <input id="station" v-model="searchQuery" placeholder="Filter stations" />
+        <input id="station" v-model="searchQuery" placeholder="Filter stations"  @input="filterStations"/>
       </div>
     </div>
   </div>
@@ -28,6 +28,15 @@ const emitStations = () => {
 const searchStations = async () => {
   await fetchStations();
   emitStations();
+};
+
+// Filter stations dynamically
+const filterStations = () => {
+  const query = searchQuery.value.toLowerCase();
+  const filtered = filteredStations.value.filter((station) =>
+    station.name.toLowerCase().includes(query)
+  );
+  emit('stationsFetched', filtered);
 };
 </script>
 
