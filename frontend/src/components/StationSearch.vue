@@ -8,7 +8,6 @@
           v-model="searchCountry"
           class="search-input"
           placeholder="Enter country"
-          @input="emitStations"
         />
       </div>
       <button @click="searchStations" class="search-btn">Search</button>
@@ -19,7 +18,7 @@
           v-model="searchQuery"
           class="search-input"
           placeholder="Filter stations..."
-          @input="emitStations"
+          @input="filterStations"
         />
       </div>
     </div>
@@ -41,7 +40,17 @@ const searchStations = async () => {
   await fetchStations();
   emitStations();
 };
+
+// Filter stations dynamically
+const filterStations = () => {
+  const query = searchQuery.value.toLowerCase();
+  const filtered = filteredStations.value.filter((station) =>
+    station.name.toLowerCase().includes(query)
+  );
+  emit('stationsFetched', filtered);
+};
 </script>
+
 
 <style scoped>
 .search-fields {

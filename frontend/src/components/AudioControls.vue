@@ -74,19 +74,14 @@ const durationStr = ref('');
 let ws = null;
 let progressInterval = null;
 
-// Watch for changes in the stream URL
-watch(
-  () => props.streamUrl,
-  (newUrl) => {
-    if (audioPlayer.value) {
-      audioPlayer.value.src = newUrl;
-      audioPlayer.value.load();
-      if (newUrl) {
-        setupWebSocket({ url_resolved: newUrl, name: 'Station' });
-      }
-    }
+// Watch for play/pause state to start/stop the progress bar
+watch(isPlaying, (newValue) => {
+  if (newValue) {
+    startProgressBar();
+  } else {
+    stopProgressBar();
   }
-);
+});
 
 // Start the progress bar updates
 const startProgressBar = () => {
@@ -110,6 +105,11 @@ const startProgressBar = () => {
   }, 500);
 };
 
+const stopProgressBar = () => {
+  if (progressInterval) clearInterval(progressInterval);
+  progressInterval = null;
+};
+
 // Utility to format time
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
@@ -125,14 +125,46 @@ function formatTime(seconds) {
     }
 }
 
+// Handle metadata loaded
+const onMetadataLoaded = () => {
+  // Ensure the player is paused when metadata is loaded
+  if (audioPlayer.value) {
+    audioPlayer.value.pause();
+    isPlaying.value = false;
+    stopProgressBar(); // Stop the progress bar
+    progressPercentage.value = 0; // Reset the progress bar
+  }
+};
+
 const onStreamPlay = () => {
+  isPlaying.value = true;
   startProgressBar();
 };
 
 const onStreamPause = () => {
   clearInterval(progressInterval);
+  isPlaying.value = false;
   progressPercentage.value = 0;
 };
+
+// Watch for changes in the stream URL
+watch(
+  () => props.streamUrl,
+  (newUrl) => {
+    if (audioPlayer.value) {
+      audioPlayer.value.pause();
+      isPlaying.value = false;
+      stopProgressBar();
+      progressPercentage.value = 0; // Reset progress
+
+      audioPlayer.value.src = newUrl;
+      audioPlayer.value.load();
+      if (newUrl) {
+        setupWebSocket({ url_resolved: newUrl, name: 'Station' });
+      }
+    }
+  }
+);
 
 // Setup WebSocket for metadata updates
 const setupWebSocket = (station) => {
@@ -167,7 +199,9 @@ const setupWebSocket = (station) => {
 
         // Reset progress for the new track
         progressPercentage.value = 0;
-        startProgressBar();
+        if(isPlaying.value) {
+          startProgressBar();
+        }
       }
     } catch (error) {
       console.error('WebSocket Error:', error);
@@ -180,6 +214,7 @@ const setupWebSocket = (station) => {
 onBeforeUnmount(() => {
   if (ws) ws.close();
   if (progressInterval) clearInterval(progressInterval);
+  stopProgressBar();
 });
 </script>
 
@@ -230,38 +265,39 @@ onBeforeUnmount(() => {
 }
 
 .middle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-  padding: 0 10px;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* Play button, progress bar, volume control */
+  align-items: center; /* Vertically center all items */
+  gap: 10px; /* Adjust spacing between columns */
+  width: 100%; /* Full width */
+  padding: 10px; /* Padding for spacing */
 }
 
 .play-button {
-  font-size: 20px;
+  justify-self: center; /* Center the play button within its grid column */
+  font-size: 24px; /* Adjust size for better visibility */
   color: #fff;
   background: none;
   border: none;
   cursor: pointer;
-  flex-shrink: 0;
 }
 
 .progress-bar-container {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 25px;
+  position: relative;
+  width: 100%; /* Stretch to fill available space */
+  height: 8px; /* Adjust height for better visibility */
+  background: #444; /* Light background to indicate empty space */
+  border-radius: 4px;
 }
 
 .progress-bar {
-  width: 100%;
-  height: 6px;
-  margin: 5px 0; /* Compact spacing */
-  background: #e60808;
-  border-radius: 3px;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #ff4444;
+  border-radius: 4px;
+  transition: width 0.2s ease-in-out;
 }
 
 .progress-bar::before {
@@ -275,16 +311,16 @@ onBeforeUnmount(() => {
 }
 
 .volume-control {
-  flex: 1;
+  justify-self: end; /* Align volume control to the right */
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px; /* Space between icon and slider */
 }
 
 .volume-control input {
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
+  width: 100px; /* Fixed width for consistent design */
   height: 6px;
   background: #fff;
   border-radius: 5px;
@@ -300,9 +336,9 @@ onBeforeUnmount(() => {
 }
 
 .volume-control input::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: #ff4444;
+  width: 10px;
+  height: 10px;
+  background: #fff;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -313,8 +349,9 @@ onBeforeUnmount(() => {
 
 .elapsed-time {
   font-size: 0.8em;
-  color: #dfdfdf;
-  margin: 0; /* Ensure no extra spacing */
+  color: #ccc;
+  margin-top: 12px; /* Space below the progress bar */
+  display: block;
 }
 
 .album-art img {
@@ -325,7 +362,7 @@ onBeforeUnmount(() => {
 }
 
 @media all and (min-width: 1024px) and (max-width: 1280px) { 
- 
+  /* Large devices */
 }
 
 @media all and (min-width: 768px) and (max-width: 1024px) { 
@@ -337,7 +374,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@media all and (min-width: 480px) and (max-width: 768px) { }
+@media all and (min-width: 480px) and (max-width: 768px) { /* medium sized devices */}
 
 @media (max-width: 480px) {
   .album-art img {
@@ -350,35 +387,52 @@ onBeforeUnmount(() => {
   .track-info {
     font-size: 1.2em;
   }
+
   .middle-row {
-    width: 100%;
-    gap: 5px; /* Compact spacing between controls */
-    margin-top: 0;
+    display: grid;
+    grid-template-areas: 
+      "play-button"
+      "progress-bar"
+      "elapsed-time"
+      "volume-control"; /* Stack elements vertically */
+    grid-template-columns: 1fr; /* Single column for stacked layout */
+    gap: 10px;
+    width: 100%; /* Ensure it stretches across the container */
   }
 
-  .volume-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-shrink: 0;
-    width: 80px; /* Adjusted for usability */
-  }
-
-  .elapsed-time {
-    font-size: 0.7em; /* Slightly smaller for mobile screens */
-  }
-  .progress-bar {
-    margin-top:20px;
-    height: 6px;
+  .play-button {
+    grid-area: play-button;
+    justify-self: center; /* Center the play button horizontally */
   }
 
   .progress-bar-container {
-    flex: 2;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px;
+    grid-area: progress-bar;
+    width: 90%; /* Adjust width for smaller screens */
+    margin: 0 auto; /* Center the progress bar */
+  }
+
+  .elapsed-time {
+    grid-area: elapsed-time;
+    font-size: 0.7em; /* Slightly smaller for mobile screens */
+    text-align: center; /* Center the elapsed time */
+  }
+
+  .volume-control {
+    justify-self: center;
+    margin-top: 25px;
+    grid-area: volume-control;
+    justify-content: center; /* Center-align volume controls */
+    width: 90%; /* Match the progress bar width */
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #ff4444; /* Background to show the full bar */
+    border-radius: 4px;
+    position: relative;
   }
 }
+
 
 
 /* Portrait */
@@ -390,29 +444,31 @@ onBeforeUnmount(() => {
 /* CSS for iPhone, iPad, and Retina Displays */
 
 /* Non-Retina */
-@media screen and (-webkit-max-device-pixel-ratio: 1) {
-}
+@media screen and (-webkit-max-device-pixel-ratio: 1) {/* Non Retina */}
 
 /* Retina */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
 only screen and (-o-min-device-pixel-ratio: 3/2),
 only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (min-device-pixel-ratio: 1.5) {
-}
+only screen and (min-device-pixel-ratio: 1.5) {/* Retina devices */}
 
 /* iPhone Portrait */
 @media screen and (max-device-width: 480px) and (orientation:portrait) {
+  /* iPhone Portrait */
 } 
 
 /* iPhone Landscape */
 @media screen and (max-device-width: 480px) and (orientation:landscape) {
+  /* iPhone Landscape */
 }
 
-/* iPad Portrait */
+
 @media screen and (min-device-width: 481px) and (orientation:portrait) {
+  /* iPad Portrait */
 }
 
 /* iPad Landscape */
 @media screen and (min-device-width: 481px) and (orientation:landscape) {
+  /* iPad Portrait */
 }
 </style>
