@@ -27,3 +27,6 @@ logic works by the unit tests; AVA for the backend tests and ViTest for the fron
 </code>
 <li/>
 </ol>
+<style>
+    font-size: 0.8em;
+</style>
