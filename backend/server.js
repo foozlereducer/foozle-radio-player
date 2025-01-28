@@ -6,8 +6,8 @@ import { createWebSocketServer } from './services/webSocketServer.js';
 import { setWebSocketServer } from './services/utilities/webSocketUtils.js';
 
 const options = {
-  key: fs.readFileSync(path.resolve('bin/localhost-key.pem')),
-  cert: fs.readFileSync(path.resolve('bin/localhost.pem')),
+  key: fs.readFileSync(path.resolve('bin/localhost.key')),
+  cert: fs.readFileSync(path.resolve('bin/localhost.crt')),
 };
 
 const port = process.env.PORT || 3001;

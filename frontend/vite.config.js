@@ -41,8 +41,8 @@ export default defineConfig({
     port: 5174, // Set your desired port
     strictPort: true, // Fail if the port is already in use
     https: {
-      key: fs.readFileSync(path.resolve('../backend/bin/localhost-key.pem')),
-      cert: fs.readFileSync(path.resolve('../backend/bin/localhost.pem')),
+      key: fs.readFileSync(path.resolve('../backend/bin/localhost.key')),
+      cert: fs.readFileSync(path.resolve('../backend/bin/localhost.crt')),
     },
     proxy: {
       '/api': {

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 let spotifyAccessToken = null;
-const SPOTIFY_CLIENT_ID = 'ec832d9eec4749b2baa921fe98297292';
-const SPOTIFY_CLIENT_SECRET = 'cc1c1e351dc54538a9ca8c6081b8d2a9';
+const SPOTIFY_CLIENT_ID = import.meta.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = import.meta.SPOTIFY_CLIENT_SECRET;
 
 /**
  * Fetch Spotify access token using Client Credentials flow.
