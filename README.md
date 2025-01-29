@@ -2,7 +2,7 @@
 # Foozle Radio
 
 The foozle radio is a quick Vue3 and Express/Node.js app that allows
-a user to put a contry and get 20000 radio station that can be filtered.
+a user to put a country and get 20000 radio station that can be filtered.
 It attempts to download album art and track meta data; it does this using web sockets.
 It also trys to get the current song's streamed progress.
 
