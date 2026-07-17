@@ -159,8 +159,9 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .audio-controls { display: flex; flex-direction: column; gap: 20px; color: #fff; width: 100%; }
-.top-row { display: flex; align-items: center; justify-content: center; gap: 20px; min-height: 110px; }
-.album-art img { width: 110px; height: 110px; object-fit: cover; border-radius: 10px; }
+.top-row { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; }
+.album-art { flex: 0 0 auto; }
+.album-art img { display: block; width: 360px; height: 360px; max-width: 100%; object-fit: cover; border-radius: 8px; }
 .now-listening { min-width: 0; }
 .now-listening h4, .track-info, .artist { margin: 4px 0; }
 .under-style { width: 30px; height: 3px; background: #ff4444; margin: 5px 0; }
@@ -180,6 +181,6 @@ onBeforeUnmount(() => {
   .volume-control { grid-column: 1 / -1; width: 100%; }
   .volume-control input { width: 100%; }
   .top-row { align-items: flex-start; }
-  .album-art img { width: 90px; height: 90px; }
+  .album-art img { width: 180px; height: 180px; }
 }
 </style>
