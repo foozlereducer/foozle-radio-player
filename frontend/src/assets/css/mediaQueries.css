@@ -1,11 +1,47 @@
+html {
+  min-height: 100%;
+  background-color: #182023;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
-  background-color: #1d1d1d;
-  background-image: url('../images/foggy-bridge.jpg');
+  position: relative;
+  isolation: isolate;
+  background-color: transparent;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: -2;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(10, 16, 19, 0.18) 0%,
+      rgba(10, 16, 19, 0.28) 55%,
+      rgba(10, 16, 19, 0.42) 100%
+    ),
+    url('../images/foggy-forest-depth.jpg');
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
+}
+
+body::after {
+  z-index: -1;
+  background-image: url('../images/foggy-forest-tile.jpg');
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 900px 900px;
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
 }
 
 * {
