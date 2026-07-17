@@ -2,6 +2,21 @@
 
 Foozle Radio is a Vue 3 and Express application for finding and playing internet radio stations. The backend queries Radio Browser, proxies audio to avoid browser CORS and mixed-content failures, reads ICY stream metadata, and enriches tracks with Spotify artwork and duration.
 
+  The repository is suitable as a starting point for:
+
+  - Personal internet-radio players.
+  - Community or nonprofit radio directories.
+  - Branded players for independent stations.
+  - Kiosk or home-audio interfaces.
+  - Experiments involving live streams and ICY metadata.
+  - Privacy-conscious radio applications.
+
+  The project itself does not inject advertising. It cannot remove advertisements already included in a station’s
+  broadcast, but developers can build a clean listening interface without adding another advertising layer.
+
+  The repository uses the MIT License, so others can reuse, modify, redistribute, and build commercial or noncommercial
+  applications from it while retaining the license notice.
+
 ## Requirements
 
 - Node.js 22.12 or newer
