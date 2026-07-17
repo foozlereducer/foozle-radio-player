@@ -1,0 +1,13 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: #1d1d1d;
+  background-image: url('../images/foggy-bridge.jpg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+* {
+  box-sizing: border-box;
+}
