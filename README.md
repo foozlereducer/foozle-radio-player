@@ -9,19 +9,30 @@ Foozle Radio is a Vue 3 and Express application for finding and playing internet
 
 ## Development
 
+For a first-time local setup, install the root task runner and both applications:
+
 ```bash
-cd backend
-cp .env.example .env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 npm install
+npm run setup
+```
+
+Start both development servers in one terminal:
+
+```bash
 npm run dev
 ```
 
-In another terminal:
+The root command is only a local convenience. The applications remain independently runnable and deployable. To run them in separate terminals instead:
 
 ```bash
+# Terminal 1
+cd backend
+npm run dev
+
+# Terminal 2
 cd frontend
-cp .env.example .env
-npm install
 npm run dev
 ```
 
@@ -34,6 +45,15 @@ For a separately hosted frontend, set `FRONTEND_ORIGINS` on the backend and set 
 ## Commands
 
 ```bash
+# Repository root
+npm run setup         # install locked backend and frontend dependencies
+npm run dev           # start both development servers
+npm run dev:backend   # start only the backend
+npm run dev:frontend  # start only the frontend
+npm test              # run backend tests
+npm run build         # build the frontend
+npm run audit         # audit both applications
+
 # Backend
 npm start       # production-style server
 npm run dev     # nodemon development server
