@@ -1,16 +1,16 @@
 <template>
   <div class="search-container">
-    <div class="search-section">
+    <form class="search-section" @submit.prevent="searchStations">
       <div class="search-group">
         <label for="country">Country:</label>
         <input id="country" v-model="searchCountry" placeholder="Enter country" />
       </div>
-      <button class="search-btn" @click="searchStations">Search</button>
+      <button type="submit" class="search-btn">Search</button>
       <div class="search-group">
         <label for="station">Station:</label>
         <input id="station" v-model="searchQuery" placeholder="Filter stations"  @input="filterStations"/>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
