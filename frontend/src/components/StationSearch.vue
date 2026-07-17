@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <div class="search-fields">
+    <form class="search-fields" @submit.prevent="searchStations">
       <div class="search-group">
         <label for="country">Country:</label>
         <input
@@ -10,7 +10,7 @@
           placeholder="Enter country"
         />
       </div>
-      <button @click="searchStations" class="search-btn">Search</button>
+      <button type="submit" class="search-btn">Search</button>
       <div class="search-group">
         <label for="station">Station:</label>
         <input
@@ -21,7 +21,7 @@
           @input="filterStations"
         />
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
