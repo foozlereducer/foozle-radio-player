@@ -13,7 +13,7 @@
     </div>
 
     <div class="middle-row">
-      <button type="button" class="play-button" :disabled="!streamUrl" @click="togglePlayPause">
+      <button type="button" class="play-button" :disabled="!streamUrl" @click="togglePlayback">
         <span aria-hidden="true">{{ isPlaying ? '❚❚' : '▶' }}</span>
         <span class="sr-only">{{ isPlaying ? 'Pause' : 'Play' }}</span>
       </button>
@@ -35,7 +35,7 @@
     ref="audioPlayer"
     :src="audioSource"
     @play="onPlay"
-    @pause="onPause"
+    @pause="handlePause"
     @error="onAudioError"
   />
 </template>
@@ -45,7 +45,7 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import useAudioControls from '../composables/useAudioControls';
 
 const props = defineProps({ streamUrl: { type: String, default: '' } });
-const { audioPlayer, isPlaying, volume, togglePlayPause, updateVolume, onPlay, onPause } = useAudioControls();
+const { audioPlayer, isPlaying, volume, updateVolume, onPlay, onPause } = useAudioControls();
 
 const trackInfo = ref('Select a station to begin listening');
 const artist = ref('');
@@ -93,6 +93,44 @@ function startProgress() {
 }
 
 watch(isPlaying, (playing) => playing ? startProgress() : stopProgress());
+
+function handlePause() {
+  onPause();
+}
+
+async function reloadLiveStream() {
+  const player = audioPlayer.value;
+  if (!player || !props.streamUrl) return;
+
+  // A paused media element can retain many minutes of a live stream. Dropping
+  // its source makes the next play request begin at the station's live edge.
+  audioSource.value = '';
+  await nextTick();
+  audioSource.value = `${backendUrl}/api/stream?url=${encodeURIComponent(props.streamUrl)}`;
+  await nextTick();
+  player.load();
+}
+
+async function togglePlayback() {
+  const player = audioPlayer.value;
+  if (!player) return;
+
+  if (!player.paused) {
+    player.pause();
+    return;
+  }
+
+  // Radio streams are live rather than seekable. Always start a fresh request
+  // on resume so audio, metadata, and the track progress clock remain aligned.
+  await reloadLiveStream();
+
+  try {
+    await player.play();
+  } catch (error) {
+    isPlaying.value = false;
+    console.error('Could not play audio:', error);
+  }
+}
 
 function closeWebSocket() {
   if (ws) {
