@@ -1,6 +1,8 @@
+# Foozle Radio
+
 <img src="frontend/src/assets/images/foozle-radio-player.png" alt="An example of the foozle radio player">
 
-# Foozle Radio
+
 
 Foozle Radio is a Vue 3 and Express application for finding and playing internet radio stations. The backend queries Radio Browser, proxies audio to avoid browser CORS and mixed-content failures, reads ICY stream metadata, and enriches tracks with Spotify artwork and duration.
 
