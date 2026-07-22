@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import useAudioControls from '../composables/useAudioControls';
 
 const props = defineProps({ streamUrl: { type: String, default: '' } });
@@ -58,9 +58,7 @@ let ws = null;
 let progressTimer = null;
 
 const backendUrl = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '');
-const audioSource = computed(() => props.streamUrl
-  ? `${backendUrl}/api/stream?url=${encodeURIComponent(props.streamUrl)}`
-  : '');
+const audioSource = ref('');
 const elapsedText = computed(() => formatTime(elapsedSeconds.value));
 const durationText = computed(() => duration.value ? formatTime(duration.value) : '--:--');
 
@@ -98,6 +96,12 @@ watch(isPlaying, (playing) => playing ? startProgress() : stopProgress());
 
 function closeWebSocket() {
   if (ws) {
+    // A socket can still finish connecting after close() is called.  Removing
+    // every handler prevents it from subscribing to, or updating the UI for,
+    // the station that was just replaced.
+    ws.onopen = null;
+    ws.onmessage = null;
+    ws.onerror = null;
     ws.onclose = null;
     ws.close();
     ws = null;
@@ -112,9 +116,13 @@ function websocketUrl() {
 
 function connectForMetadata(streamUrl) {
   closeWebSocket();
-  ws = new WebSocket(websocketUrl());
-  ws.onopen = () => ws?.send(JSON.stringify({ type: 'subscribe', url: streamUrl }));
-  ws.onmessage = ({ data }) => {
+  const socket = new WebSocket(websocketUrl());
+  ws = socket;
+  socket.onopen = () => {
+    if (ws === socket) socket.send(JSON.stringify({ type: 'subscribe', url: streamUrl }));
+  };
+  socket.onmessage = ({ data }) => {
+    if (ws !== socket) return;
     try {
       const message = JSON.parse(data);
       if (message.type !== 'metadata') return;
@@ -131,11 +139,25 @@ function connectForMetadata(streamUrl) {
       console.error('Invalid metadata message:', error);
     }
   };
-  ws.onerror = () => console.error('Metadata WebSocket connection failed');
+  socket.onerror = () => console.error('Metadata WebSocket connection failed');
 }
 
-watch(() => props.streamUrl, (streamUrl) => {
-  audioPlayer.value?.pause();
+let stationChangeId = 0;
+
+watch(() => props.streamUrl, async (streamUrl) => {
+  const changeId = ++stationChangeId;
+  const player = audioPlayer.value;
+  const shouldResume = Boolean(player && !player.paused);
+
+  // Explicitly detach the old source before assigning the next one. Changing
+  // the src attribute alone can leave an endless live-stream request buffered
+  // in some browsers, which makes the UI appear to play the new station.
+  if (player) {
+    player.pause();
+    player.removeAttribute('src');
+    player.load();
+  }
+  isPlaying.value = false;
   stopProgress();
   progressPercentage.value = 0;
   elapsedSeconds.value = 0;
@@ -143,9 +165,29 @@ watch(() => props.streamUrl, (streamUrl) => {
   albumArtUrl.value = '';
   trackInfo.value = streamUrl ? 'Waiting for station metadata…' : 'Select a station to begin listening';
   artist.value = '';
-  if (streamUrl) connectForMetadata(streamUrl);
-  else closeWebSocket();
-});
+  closeWebSocket();
+  if (!streamUrl) {
+    audioSource.value = '';
+    return;
+  }
+
+  audioSource.value = `${backendUrl}/api/stream?url=${encodeURIComponent(streamUrl)}`;
+  await nextTick();
+  if (changeId !== stationChangeId || !audioPlayer.value) return;
+
+  audioPlayer.value.load();
+  connectForMetadata(streamUrl);
+  if (shouldResume) {
+    try {
+      await audioPlayer.value.play();
+    } catch (error) {
+      // The error event provides the user-facing message; this preserves an
+      // accurate stopped state if the new stream cannot be started.
+      isPlaying.value = false;
+      console.error('Could not play the selected station:', error);
+    }
+  }
+}, { immediate: true });
 
 function onAudioError() {
   if (props.streamUrl) trackInfo.value = 'This station stream could not be played';
