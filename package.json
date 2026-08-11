@@ -13,7 +13,7 @@
     "audit": "npm audit --prefix backend && npm audit --prefix frontend"
   },
   "devDependencies": {
-    "concurrently": "^10.0.3"
+    "concurrently": "^10.0.4"
   },
   "engines": {
     "node": ">=22.12"
